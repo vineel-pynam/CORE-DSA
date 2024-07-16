@@ -67,7 +67,3 @@ int main(){
 	stack.push(7);
 	cout << "Peek: " << stack.peek() << endl;
 }
-
-
-/// QUEUE
-
