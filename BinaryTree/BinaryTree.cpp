@@ -64,6 +64,56 @@ public:
 		postorder(root->right);
 		cout << root->data << " ";
 	}
+
+	Node* deleteNode(Node* root, int value){
+		if( !root ) return NULL;
+		root->left = deleteNode(root->left, value);
+		root->right = deleteNode(root->right, value);
+
+		if( root->data == value ){
+			if( !root->left ) return root->right;
+			if( !root->right ) return root->left;
+
+			Node* temp = root;
+			while(temp->left != NULL){
+				temp = temp->left;
+			}
+
+			temp->left = root->right;
+			return root->left;
+		}
+
+		return root;
+	}
+
+	void remove(int value){
+		this->root = this->deleteNode(this->root, value);
+	}
+
+	void levelOrder(){
+		if( !this->root ) {
+			cout << " Root is Null " << endl;
+			return;
+		}
+
+		queue<Node*> q;
+		q.push(this->root);
+
+		while(!q.empty()){
+			int size = q.size();
+
+			for( int i=0; i<size; i++ ){
+				Node* front = q.front();
+				q.pop();
+				cout << front->data << " ";
+				if(front->left) q.push(front->left);
+				if(front->right) q.push(front->right);
+			}
+		}
+
+		cout << endl;
+
+	}
 };
 
 int main(){
@@ -82,5 +132,14 @@ int main(){
 
 	cout << "PostOrder: ";
 	bt.postorder(bt.root);
+	cout << endl;
+
+	cout << "levelOrder: ";
+	bt.levelOrder();
+	cout << endl;
+
+	bt.remove(5);
+	cout << "PreOrder: ";
+	bt.preorder(bt.root);
 	cout << endl;
 }
